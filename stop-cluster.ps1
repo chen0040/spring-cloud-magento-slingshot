@@ -16,3 +16,13 @@ Invoke-WebRequest -URI http://localhost:3088/kill
 
 # kill sbs-syslog4j-server
 Invoke-WebRequest -URI http://localhost:8088/kill
+
+$jobs = Get-Job
+
+foreach($job in $jobs){
+    if($job.State -eq "Completed") {
+        Write-Host "Remove Job "$job.Id
+        Remove-Job $job.Id
+    }
+}
+
