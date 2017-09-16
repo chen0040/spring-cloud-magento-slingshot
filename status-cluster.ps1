@@ -5,6 +5,9 @@ Invoke-WebRequest -URI http://localhost:8080/ping
 # ping sbs-eureka-app
 Invoke-WebRequest -URI http://localhost:9020/ping
 
+# ping sbs-eureka-app-magento
+Invoke-WebRequest -URI http://localhost:9022/ping
+
 # ping sbs-eureka-server
 Invoke-WebRequest -URI http://localhost:8761/ping
 

@@ -5,6 +5,9 @@ Invoke-WebRequest -URI http://localhost:8080/kill
 # kill sbs-eureka-app
 Invoke-WebRequest -URI http://localhost:9020/kill
 
+# kill sbs-eureka-app-magento
+Invoke-WebRequest -URI http://localhost:9022/kill
+
 # kill sbs-eureka-server
 Invoke-WebRequest -URI http://localhost:8761/kill
 

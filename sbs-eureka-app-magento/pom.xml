@@ -236,6 +236,17 @@
             <artifactId>spring-boot-starter-cache</artifactId>
         </dependency>
 
+        <!-- database dependencies -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+
         <!-- cloud dependencies -->
 
         <dependency>
@@ -259,6 +270,12 @@
             <groupId>com.github.chen0040</groupId>
             <artifactId>sbs-common</artifactId>
             <version>1.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.chen0040</groupId>
+            <artifactId>java-magento-client</artifactId>
+            <version>1.0.9</version>
         </dependency>
     </dependencies>
 
@@ -310,7 +327,7 @@
                                         implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.github.chen0040.eureka.app.MagentoApplication</mainClass>
+                                    <mainClass>com.github.chen0040.eureka.magento.MagentoApplication</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
