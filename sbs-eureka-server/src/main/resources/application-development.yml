@@ -1,6 +1,10 @@
 server:
   port: 8761
 
+spring:
+  application:
+    name: sbs-eureka-server
+
 eureka:
   client:
     registerWithEureka: false

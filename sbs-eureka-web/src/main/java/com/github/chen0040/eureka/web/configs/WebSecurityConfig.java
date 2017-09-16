@@ -59,6 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
               .antMatchers("/contact-us").permitAll()
               .antMatchers("/forgot-password").permitAll()
               .antMatchers("/about-us").permitAll()
+              .antMatchers("/kill").permitAll()
               .anyRequest().authenticated()
               .and()
               .formLogin()
