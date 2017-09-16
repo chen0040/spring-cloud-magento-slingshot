@@ -70,7 +70,7 @@ public class SbMariaDbServer {
                e.printStackTrace();
             }
             System.exit(0);
-         });
+         }).start();
 
          return "mariadb will be killed in 100 milliseconds";
       });

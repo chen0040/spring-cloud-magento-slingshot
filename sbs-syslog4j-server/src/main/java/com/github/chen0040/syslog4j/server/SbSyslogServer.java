@@ -88,9 +88,9 @@ public class SbSyslogServer {
                e.printStackTrace();
             }
             System.exit(0);
-         });
+         }).start();
 
-         return "mariadb will be killed in 100 milliseconds";
+         return "syslog4j will be killed in 100 milliseconds";
       });
 
       get("/ping", (req, res) -> "sbs-syslog4j-server");
