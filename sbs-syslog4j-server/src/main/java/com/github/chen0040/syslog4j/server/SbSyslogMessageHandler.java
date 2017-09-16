@@ -24,6 +24,7 @@ public class SbSyslogMessageHandler implements SyslogServerEventHandlerIF {
    private static final Logger logger_sbs_eureka_web = LoggerFactory.getLogger("sbs-eureka-web");
    private static final Logger logger_sbs_eureka_server = LoggerFactory.getLogger("sbs-eureka-server");
    private static final Logger logger_sbs_eureka_app = LoggerFactory.getLogger("sbs-eureka-app");
+   private static final Logger logger_sbs_eureka_app_magento = LoggerFactory.getLogger("sbs-eureka-app-magento");
 
    private final Map<String, Logger> loggers = new HashMap<>();
    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -38,6 +39,7 @@ public class SbSyslogMessageHandler implements SyslogServerEventHandlerIF {
       loggers.put("sbs-eureka-web", logger_sbs_eureka_web);
       loggers.put("sbs-eureka-server", logger_sbs_eureka_server);
       loggers.put("sbs-eureka-app", logger_sbs_eureka_app);
+      loggers.put("sbs-eureka-app-magento", logger_sbs_eureka_app_magento);
 
       for(String name : loggers.keySet()) {
          snapshots.put(name, new LinkedList<>());

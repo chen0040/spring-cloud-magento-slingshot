@@ -48,7 +48,7 @@
             <!-- remote port to log to -->
             <port>8089</port>
             <!-- program name to log as -->
-            <ident>sbs-eureka-app</ident>
+            <ident>sbs-eureka-app-magento</ident>
             <!-- max log message length in bytes -->
             <maxMessageLength>128000</maxMessageLength>
         </syslogConfig>
@@ -65,7 +65,7 @@
             <!-- remote port to log to -->
             <port>8089</port>
             <!-- program name to log as -->
-            <ident>sbs-eureka-app</ident>
+            <ident>sbs-eureka-app-magento</ident>
             <!-- max log message length in bytes -->
             <maxMessageLength>128000</maxMessageLength>
         </syslogConfig>
@@ -82,7 +82,7 @@
             <!-- remote port to log to -->
             <port>8089</port>
             <!-- program name to log as -->
-            <ident>sbs-eureka-app</ident>
+            <ident>sbs-eureka-app-magento</ident>
             <!-- max log message length in bytes -->
             <maxMessageLength>128000</maxMessageLength>
         </syslogConfig>
