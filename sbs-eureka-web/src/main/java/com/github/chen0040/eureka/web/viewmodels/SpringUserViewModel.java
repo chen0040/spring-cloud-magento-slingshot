@@ -1,7 +1,7 @@
 package com.github.chen0040.eureka.web.viewmodels;
 
+import com.github.chen0040.commons.utils.StringUtils;
 import com.github.chen0040.eureka.web.models.SpringUser;
-import com.github.chen0040.eureka.web.utils.StringUtils;
 
 import java.util.Date;
 

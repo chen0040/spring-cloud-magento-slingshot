@@ -220,6 +220,12 @@
             <version>2.7.8</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.chen0040</groupId>
+            <artifactId>sbs-common</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
     </dependencies>
 
     <build>

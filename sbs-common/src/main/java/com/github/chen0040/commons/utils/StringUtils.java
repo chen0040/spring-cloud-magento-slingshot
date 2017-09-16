@@ -4,6 +4,8 @@ package com.github.chen0040.commons.utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -174,5 +176,43 @@ public class StringUtils {
          return null;
       }
       return email.trim().toLowerCase();
+   }
+
+
+   public static String encodeUriComponent(String s) {
+      try {
+         return URLEncoder.encode(s, "UTF-8")
+                 .replaceAll("\\+", "%20")
+                 .replaceAll("\\%21", "!")
+                 .replaceAll("\\%27", "'")
+                 .replaceAll("\\%28", "(")
+                 .replaceAll("\\%29", ")")
+                 .replaceAll("\\%7E", "~");
+      } catch (UnsupportedEncodingException e) {
+         e.printStackTrace();
+      }
+      return s;
+   }
+
+   public static String toCurrencyString(double val){
+      return String.format("%.2f", val);
+   }
+
+   public static String toDateString(Date date){
+      if(date == null) return "(null)";
+      SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+      return format.format(date);
+   }
+
+   public static String toString(int val){
+      return String.format("%d", val);
+   }
+
+   public static String toString(float val){
+      return String.format("%.2f", val);
+   }
+
+   public static String toString(double val){
+      return String.format("%.2lf", val);
    }
 }

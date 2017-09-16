@@ -1,7 +1,7 @@
 package com.github.chen0040.eureka.web.models;
 
 
-import com.github.chen0040.eureka.web.utils.StringUtils;
+import com.github.chen0040.commons.utils.StringUtils;
 
 import javax.persistence.*;
 import java.util.Date;

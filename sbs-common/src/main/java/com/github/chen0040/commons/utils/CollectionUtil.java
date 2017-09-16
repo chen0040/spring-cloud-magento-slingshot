@@ -1,4 +1,4 @@
-package com.github.chen0040.redis.server.utils;
+package com.github.chen0040.commons.utils;
 
 import java.util.*;
 import java.util.function.Predicate;

@@ -1,8 +1,8 @@
 package com.github.chen0040.redis.server.services;
 
 
-import com.github.chen0040.redis.server.utils.CollectionUtil;
-import com.github.chen0040.redis.server.utils.StringUtils;
+import com.github.chen0040.commons.utils.CollectionUtil;
+import com.github.chen0040.commons.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ public class VersionServiceImpl implements VersionService {
    @Override
    public boolean isDefaultProfile(){
       String profile = getProfileString();
-      return StringUtils.isEmpty(profile) || profile.contains("docker") || profile.contains("iss") || profile.contains("default") || profile.contains("mysql") || profile.contains("hsql");
+      return StringUtils.isEmpty(profile) ||  profile.contains("default") ;
    }
 
 
