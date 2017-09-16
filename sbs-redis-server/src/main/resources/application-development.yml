@@ -1,0 +1,6 @@
+server:
+  port: 7379
+
+spring:
+  application:
+    name: java-redis-standalone-server
