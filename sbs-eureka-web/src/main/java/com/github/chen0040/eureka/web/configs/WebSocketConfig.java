@@ -23,7 +23,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
    @Override
    public void registerStompEndpoints(StompEndpointRegistry registry) {
-      registry.addEndpoint("/spring-boot-slingshot")
+      registry.addEndpoint("/sbs")
               .withSockJS();
    }
 

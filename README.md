@@ -53,7 +53,7 @@ running locally.
 * Spring Data JPA and Spring Security for Authentication
 * Spring Data JPA configuration for database
 * Jest for ElasticSearch
-* Websocket + sockjs + stompjs
+* Websocket + sockjs + stompjs + AngularJS + AngularUI
 * Bootstrap + thymeleaf
 * Language (cn + en)
 

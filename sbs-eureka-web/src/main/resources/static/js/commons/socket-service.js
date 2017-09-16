@@ -1,20 +1,28 @@
 (function(){
+    var service = function($log, $http, $location, $interval, $timeout) {
 
         var stompClient = null;
         var socket = null;
         var connected = false;
-        var thisUserId = -1;
         var thisCallback = null;
+        var thisUrl = "/sbs";
         var thisIntervalHandler = null;
+        var thisCounter = 0;
 
         function stompConnect() {
-            console.log('STOMP: Attempting connection');
+            $log.debug('STOMP: Attempting connection');
             stompClient = null;
-            connect(thisUserId, thisCallback);
+            connect(thisCallback);
         }
 
+        var setUrl = function(newUrl) {
+            thisUrl = newUrl;
+        };
+
         var connectToHost = function() {
-            var url = "/app_name";
+            var url = thisUrl;
+
+            $log.debug('connecting to ' + url);
 
             socket = new SockJS(url);
             stompClient = Stomp.over(socket);
@@ -22,30 +30,21 @@
                 connected = true;
 
                 if(thisCallback) thisCallback('connect', connected);
-
-                stompClient.subscribe('/topics/events-' + thisUserId, function(message){
-                    console.log('event message result!');
-                    if(thisCallback) thisCallback('events', message.body);
-                });
-
                 stompClient.subscribe('/topics/ping', function(message) {
-                    console.log('ping!');
+                    $log.debug('ping!');
                     if(thisCallback) thisCallback('ping', message.body);
                 });
 
 
             }, function (error) {
-               console.log('STOMP: ' + error);
+               $log.debug('STOMP: ' + error);
                setTimeout(stompConnect, 5000);
-               console.log('STOMP: Reconecting in 5 seconds');
+               $log.debug('STOMP: Reconecting in 5 seconds');
             });
         };
 
-        var connect = function(userId, callback) {
-            thisUserId = userId;
+        var connect = function(callback) {
             thisCallback = callback;
-            var host = $location.host();
-            console.log('detect host: ' + host);
 
             if(stompClient == null) {
                 connectToHost();
@@ -61,7 +60,7 @@
                 thisIntervalHandler = null;
             }
             connected = false;
-            console.log("Disconnected");
+            $log.debug("Disconnected");
         };
 
         var send = function(topic, obj) {
@@ -70,9 +69,26 @@
             }
         };
 
+        var afterConnected = function(callback) {
+            if(connected) {
+                if(callback) callback();
+            } else {
+                $timeout(function(){
+                    $log.debug('waiting to connect ...');
+                    afterConnected(callback);
+                }, 1000);
+            }
+        };
+
         return {
             connect : connect,
             disconnect : disconnect,
-            send : send
+            send : send,
+            setUrl : setUrl,
+            afterConnected : afterConnected
         };
+    };
+
+	var module = angular.module('commons');
+	module.factory('socketService', ['$log', '$http', '$location', '$interval', '$timeout', service]);
 })();
