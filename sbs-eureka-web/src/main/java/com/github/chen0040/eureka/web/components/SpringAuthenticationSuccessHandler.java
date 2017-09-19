@@ -1,8 +1,8 @@
 package com.github.chen0040.eureka.web.components;
 
 
-import com.github.chen0040.eureka.web.models.SpringUserDetails;
 import com.google.common.util.concurrent.*;
+import com.github.chen0040.eureka.web.models.SpringUserDetails;
 import net.sf.uadetector.ReadableUserAgent;
 import net.sf.uadetector.UserAgentStringParser;
 import net.sf.uadetector.service.UADetectorServiceFactory;
@@ -37,7 +37,7 @@ public class SpringAuthenticationSuccessHandler extends SavedRequestAwareAuthent
    }
 
    @Autowired
-   private SpringRequestHelper springRequestHelper;
+   private MagentoSession magentoSession;
 
 
    private String getUserAgent(HttpServletRequest request) {
@@ -48,6 +48,7 @@ public class SpringAuthenticationSuccessHandler extends SavedRequestAwareAuthent
    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
            throws IOException, ServletException {
       final String userAgent = getUserAgent(request);
+      final String cartId = magentoSession.getCartId(request);
       ListenableFuture<String> future = service.submit(() -> {
          ReadableUserAgent ua =  parser.parse(userAgent);
          String key = "NA";
@@ -58,6 +59,8 @@ public class SpringAuthenticationSuccessHandler extends SavedRequestAwareAuthent
             SpringUserDetails user = (SpringUserDetails) authentication.getPrincipal();
 
             logger.info("login user id: {}", user.getUserId());
+
+
          }
 
          return key;

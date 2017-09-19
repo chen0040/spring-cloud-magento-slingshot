@@ -17,12 +17,16 @@
             .otherwise({redirectTo:'/account'});
     });
 
-    var controller = function($timeout, $log, $scope, socketService, messageService) {
+    var controller = function($timeout, $log, $scope, socketService, messageService, categoryService) {
         var vm = this;
         vm.activate = function() {
             messageService.subscribe('ping', 'adminController', function(channel, message){
                 var eventMessage = JSON.parse(message);
                 $log.debug(eventMessage);
+            });
+
+            categoryService.getCategories(function(categories){
+                $scope.categories = categories;
             });
             
             $timeout(function(){
@@ -35,7 +39,7 @@
         vm.activate();
     };
 
-    app.controller("adminController", ['$timeout', '$log', '$scope', 'socketService', 'messageService', controller]);
+    app.controller("adminController", ['$timeout', '$log', '$scope', 'socketService', 'messageService', 'categoryService', controller]);
 
 
 })();

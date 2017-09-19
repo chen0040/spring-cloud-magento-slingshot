@@ -1,7 +1,10 @@
 package com.github.chen0040.eureka.web.configs;
 
+import com.github.chen0040.eureka.web.api.AccountApi;
+import com.github.chen0040.eureka.web.components.MagentoAuthenticationFilter;
 import com.github.chen0040.eureka.web.components.SpringAuthenticationSuccessHandler;
 import com.github.chen0040.eureka.web.services.SpringUserDetailService;
+import com.github.chen0040.eureka.web.services.SpringUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -9,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
 /**
@@ -26,6 +30,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
    @Autowired
    private SpringAuthenticationSuccessHandler authenticationSuccessHandler;
 
+   @Autowired
+   private AccountApi accountApi;
+
+   @Autowired
+   private SpringUserService userService;
+
+   @Autowired
+   private MagentoAuthenticationFilter magentoAuthenticationFilter;
+
 
    @Override
    protected void configure(HttpSecurity http) throws Exception {
@@ -39,13 +52,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
               .antMatchers("/js/client/**").hasAnyRole("USER", "ADMIN")
               .antMatchers("/js/admin/**").hasAnyRole("ADMIN")
               .antMatchers("/admin/**").hasAnyRole("ADMIN")
-              .antMatchers("/html/**").hasAnyRole("USER", "ADMIN")
+              .antMatchers("/html/shared/**").hasAnyRole("USER", "ADMIN")
+              .antMatchers("/html/admin/**").hasAnyRole("USER", "ADMIN")
+              .antMatchers("/html/public/**").permitAll()
               .antMatchers("/js/commons/**").permitAll()
+              .antMatchers("/sbs/**").permitAll()
               .antMatchers("/img/**").permitAll()
               .antMatchers("/css/**").permitAll()
               .antMatchers("/jslib/**").permitAll()
               .antMatchers("/webjars/**").permitAll()
-              .antMatchers("/V1/rest/**").permitAll()
+              .antMatchers("/magento/**").permitAll()
+              .antMatchers("/").permitAll()
+              .antMatchers("/home").permitAll()
               .antMatchers("/bundle/**").permitAll()
               .antMatchers("/fonts/*.*").permitAll()
               .antMatchers("/signup").permitAll()
@@ -71,10 +89,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
               .logout()
               .permitAll()
               .and()
+              .addFilterBefore(magentoAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
               .csrf()
               .disable();
               //.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
    }
+
 
    @Autowired
    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {

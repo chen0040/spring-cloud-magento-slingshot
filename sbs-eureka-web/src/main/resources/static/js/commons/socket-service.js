@@ -5,12 +5,14 @@
         var socket = null;
         var connected = false;
         var thisCallback = null;
+        var thisIdentity = null;
         var thisUrl = "/sbs";
+        var thisUrlSecured = "/sbs-secured";
         var thisIntervalHandler = null;
         var thisCounter = 0;
 
         function stompConnect() {
-            $log.debug('STOMP: Attempting connection');
+            console.log('STOMP: Attempting connection');
             stompClient = null;
             connect(thisCallback);
         }
@@ -22,29 +24,35 @@
         var connectToHost = function() {
             var url = thisUrl;
 
-            $log.debug('connecting to ' + url);
+            if(thisIdentity && thisIdentity.authenticated) {
+                url = thisUrlSecured;
+            }
+
+            console.log('connecting to ' + url);
 
             socket = new SockJS(url);
             stompClient = Stomp.over(socket);
             stompClient.connect({}, function(frame) {
                 connected = true;
 
+                var username = thisIdentity.username;
+
                 if(thisCallback) thisCallback('connect', connected);
-                stompClient.subscribe('/topics/ping', function(message) {
-                    $log.debug('ping!');
-                    if(thisCallback) thisCallback('ping', message.body);
+                stompClient.subscribe('/topics/' + username + '/cart', function(message) {
+                    if(thisCallback) thisCallback('cart', message.body);
                 });
 
 
             }, function (error) {
-               $log.debug('STOMP: ' + error);
+               console.log('STOMP: ' + error);
                setTimeout(stompConnect, 5000);
-               $log.debug('STOMP: Reconecting in 5 seconds');
+               console.log('STOMP: Reconecting in 5 seconds');
             });
         };
 
-        var connect = function(callback) {
+        var connect = function(identity, callback) {
             thisCallback = callback;
+            thisIdentity = identity;
 
             if(stompClient == null) {
                 connectToHost();
@@ -60,7 +68,7 @@
                 thisIntervalHandler = null;
             }
             connected = false;
-            $log.debug("Disconnected");
+            console.log("Disconnected");
         };
 
         var send = function(topic, obj) {
@@ -74,7 +82,7 @@
                 if(callback) callback();
             } else {
                 $timeout(function(){
-                    $log.debug('waiting to connect ...');
+                    console.log('waiting to connect ...');
                     afterConnected(callback);
                 }, 1000);
             }

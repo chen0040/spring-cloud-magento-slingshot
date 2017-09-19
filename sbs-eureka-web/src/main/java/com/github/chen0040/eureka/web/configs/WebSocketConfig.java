@@ -25,6 +25,8 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
    public void registerStompEndpoints(StompEndpointRegistry registry) {
       registry.addEndpoint("/sbs")
               .withSockJS();
+      registry.addEndpoint("/sbs-secured")
+              .withSockJS();
    }
 
 }

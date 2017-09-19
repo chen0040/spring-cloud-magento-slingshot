@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<div class="container container-lg">
+
+
+    <div class="row">
+        <div class="panel panel-primary panel-widget">
+
+            <div class="panel-header">
+                {{product.name}}
+            </div>
+
+            <div class="panel-body">
+
+                <div class="row-fluid">
+                    <div class="col-md-6">
+                        <img ng-show="product.imageUrl==''" src="/img/page-loading.gif" height="250px" />
+
+                        <a ng-show="product.imageUrl!=''" ng-href="#/products/{{product.sku}}">
+                            <img ng-src="/magento/products/{{product.sku}}/image" height="250px" width="250px" />
+                        </a>
+
+                        <br />
+
+                        Price: {{product.price | currency}}
+                        <br />
+
+                        Weight: {{product.weight}}
+                        <br />
+                    </div>
+                    <div class="col-md-6">
+                        Quantity:
+                        <input class="form-control" type="text" ng-model="cartItem.qty" />
+                        <br />
+                        Shipping:
+                        <select class="form-control" ng-options="cat.id as cat.name + ' ($' + cat.price + ', Lead Time: ' + cat.leadTime + ' weeks)' for cat in shippingOptions"
+                                ng-model="cartItem.shippingId">
+                        </select>
+                        <br />
+                        <button class="btn btn-primary" ng-click="addToCart()">Add to Cart</button>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="panel-footer">
+                {{product.updated_at}} |
+                <a ng-href="/magento/products/{{product.sku}}/3d-model">3D Model Download (Android)</a> |
+                <a ng-href="/magento/products/{{product.sku}}/3d-model">3D Model Download (iOS)</a>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+</html>

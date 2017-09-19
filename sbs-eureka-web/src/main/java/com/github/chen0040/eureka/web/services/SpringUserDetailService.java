@@ -1,6 +1,6 @@
 package com.github.chen0040.eureka.web.services;
 
-import com.github.chen0040.eureka.web.models.SpringUser;
+import com.github.chen0040.commons.models.SpringUser;
 import com.github.chen0040.eureka.web.models.SpringUserDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

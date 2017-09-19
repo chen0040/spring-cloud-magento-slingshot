@@ -1,8 +1,12 @@
-package com.github.chen0040.eureka.web.clients;
+package com.github.chen0040.eureka.web.api;
+
 
 import com.github.chen0040.commons.messages.Greeting;
 import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 /**

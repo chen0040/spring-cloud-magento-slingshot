@@ -1,6 +1,7 @@
 package com.github.chen0040.eureka.web.models;
 
 
+import com.github.chen0040.commons.models.SpringUser;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 

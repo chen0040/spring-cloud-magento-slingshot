@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<div class="container container-lg">
+
+
+    <div class="row">
+        <div class="panel panel-primary panel-widget">
+
+            <div class="panel-header">
+                There are {{cart.cartTotal.items_qty}} items in your cart, totaling {{cart.cartTotal.grand_total | currency}}
+            </div>
+
+            <div class="panel-body">
+
+                <div class="row-fluid">
+                    <table class="table table-hover table-stripped">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Shipping</th>
+                                <th>Unit Price</th>
+                                <th>Quantity</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="line in cart.cart.items">
+                                <td>
+                                    <a ng-href="#/products/{{line.sku}}"/>{{line.name}}</a>
+                                </td>
+                                <td ng-if="line.shipping">{{line.shipping.name + ' ($' + line.shipping.price + ', lead time: ' + line.shipping.leadTime + ' weeks)'}}</td>
+                                <td>{{line.price || currency}}</td>
+                                <td>{{line.qty}}</td>
+                                <td><button class="btn btn-danger btn-xs" ng-click="deleteItem(line)">Delete</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+</div>
+</html>

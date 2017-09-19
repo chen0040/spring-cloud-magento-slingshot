@@ -1,7 +1,7 @@
 package com.github.chen0040.eureka.web.services;
 
 
-import com.github.chen0040.eureka.web.models.SpringUser;
+import com.github.chen0040.commons.models.SpringUser;
 import com.github.chen0040.eureka.web.models.SpringUserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;

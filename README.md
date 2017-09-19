@@ -2,6 +2,8 @@
 
 Spring Cloud Slingshot project that extends from spring-boot-slingshot
 
+This is just a template project that provides slingshot for spring cloud integration with magento. 
+
 # Architecture
 
 The system consists of the following component
@@ -23,6 +25,9 @@ Among these application servers, the following form the eureka micro-service arc
 * sbs-eureka-app
 * sbs-eureka-app-magento
 * sbs-eureka-web
+
+The authentication is based on auth2-like authentication against the magento so that every micro-service
+can login based on user's account created in magento
 
 # Powershell Support on Running Cluster Locally
 
@@ -73,21 +78,4 @@ Note that the default username and password for the mysql is configured to
 * username: root
 * password: chen0469
 
-If your mysql or mariadb does not use these configuration, please change the settings in src/resources/config/application-default.properties
-
-## Usage
-
-This is just a template project that provides slingshot for spring cloud. Just use it as the starting point for your spring cloud project development.
-
-Note that the application will generate two accounts in the database on startup if they don't exist:
-
-ADMIN:
-
-* username: admin
-* password: admin
-
-DEMO:
-
-* username: demo
-* password: demo
 

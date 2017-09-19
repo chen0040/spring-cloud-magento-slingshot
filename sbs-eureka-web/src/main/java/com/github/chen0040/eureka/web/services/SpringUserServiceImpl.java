@@ -1,7 +1,7 @@
 package com.github.chen0040.eureka.web.services;
 
 
-import com.github.chen0040.eureka.web.models.SpringUser;
+import com.github.chen0040.commons.models.SpringUser;
 import com.github.chen0040.eureka.web.models.SpringUserEntity;
 import com.github.chen0040.eureka.web.repositories.SpringUserEntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;

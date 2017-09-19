@@ -1,6 +1,6 @@
 package com.github.chen0040.eureka.web.components;
 
-import com.github.chen0040.eureka.web.models.SpringUser;
+import com.github.chen0040.commons.models.SpringUser;
 import com.github.chen0040.eureka.web.models.SpringUserDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,29 +32,40 @@ public class SpringAuthentication {
       return false;
    }
 
-   public SpringUserDetails getCurrentUser() {
-      return (SpringUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+   public SpringUserDetails getUserDetails() {
+      Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+      if(principal instanceof SpringUserDetails) {
+         return (SpringUserDetails) principal;
+      } else {
+         logger.warn("Failed to get principal as SpringUserDetails: {}", principal);
+         return null;
+      }
    }
 
    public String getUsername(){
-      SpringUserDetails user = getCurrentUser();
-      return user.getUsername();
+      SpringUserDetails user = getUserDetails();
+      if(user != null) {
+         return user.getUsername();
+      } else {
+         logger.warn("Failed to obtain user");
+      }
+      return "";
    }
 
 
    public long getUserId(){
-      SpringUserDetails user = getCurrentUser();
+      SpringUserDetails user = getUserDetails();
       return user.getUserId();
    }
 
 
-   public boolean isSuperUser() {
-      return getCurrentUser().isSuperUser();
-   }
-
-
    public SpringUser getUser() {
-      return getCurrentUser().getUser();
+      SpringUserDetails userDetails = getUserDetails();
+      if(userDetails != null) {
+         return userDetails.getUser();
+      } else {
+         return null;
+      }
    }
 
    public boolean hasRole(String role) {
@@ -69,7 +80,7 @@ public class SpringAuthentication {
       return false;
    }
 
-   public boolean isLoggedIn(){
+   public boolean isAuthenticated(){
       return SecurityContextHolder.getContext().getAuthentication() != null &&
               SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
               //when Anonymous Authentication is enabled
@@ -78,5 +89,9 @@ public class SpringAuthentication {
    }
 
 
-
+   public String getToken() {
+      SpringUser user = getUser();
+      if(user != null) return user.getToken();
+      return "";
+   }
 }
