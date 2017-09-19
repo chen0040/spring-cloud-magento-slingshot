@@ -30,9 +30,8 @@
                 connected = true;
 
                 if(thisCallback) thisCallback('connect', connected);
-                stompClient.subscribe('/topics/ping', function(message) {
-                    $log.debug('ping!');
-                    if(thisCallback) thisCallback('ping', message.body);
+                stompClient.subscribe('/topics/event', function(message) {
+                    if(thisCallback) thisCallback('event', message.body);
                 });
 
 

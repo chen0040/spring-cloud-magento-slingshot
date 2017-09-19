@@ -1,23 +1,17 @@
-package com.github.chen0040.eureka.magento.models;
+package com.github.chen0040.commons.viewmodels;
 
 
+import com.github.chen0040.commons.models.SpringUser;
 import com.github.chen0040.commons.utils.StringUtils;
 
-import javax.persistence.*;
 import java.util.Date;
 
 
 /**
  * Created by xschen on 16/10/2016.
  */
-@Entity
-@Table(name = "spring_users", indexes = {
-        @Index(name="usernameIndex", columnList = "username", unique = true),
-        @Index(name="userEmailIndex", columnList = "email", unique = false)
-})
-public class SpringUserEntity implements SpringUser {
-   @Id
-   @GeneratedValue
+public class SpringUserViewModel implements SpringUser {
+
    private long id;
 
    private long companyId = -1;
@@ -31,26 +25,25 @@ public class SpringUserEntity implements SpringUser {
    private String firstName = "";
    private String lastName = "";
 
-   private boolean enabled = true;
 
    private long createdBy;
 
    private long lastUpdatedBy;
 
-   @Temporal(TemporalType.TIMESTAMP)
    private Date createdTime;
 
-   @Temporal(TemporalType.TIMESTAMP)
    private Date updatedTime;
 
-   private int paid = 0;
+   private boolean enabled = true;
 
-   public SpringUserEntity(SpringUser user) {
-      copy(user);
+   private String token = "";
+
+   public SpringUserViewModel() {
+
    }
 
-   public SpringUserEntity() {
-
+   public SpringUserViewModel(SpringUser user){
+      copy(user);
    }
 
 
@@ -186,18 +179,18 @@ public class SpringUserEntity implements SpringUser {
       this.lastUpdatedBy = lastUpdatedBy;
    }
 
+   @Override public void setEnabled(boolean enabled) {this.enabled = enabled;}
 
-   @Override public void setEnabled(boolean enabled) { this.enabled = enabled; }
+
+   @Override public String getToken() {
+      return token;
+   }
+
+
+   @Override public void setToken(String token) {
+      this.token = token;
+   }
+
 
    @Override public boolean isEnabled() { return enabled; }
-
-
-   public int getPaid() {
-      return paid;
-   }
-
-
-   public void setPaid(int paid) {
-      this.paid = paid;
-   }
 }

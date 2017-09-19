@@ -1,4 +1,4 @@
-package com.github.chen0040.eureka.magento.models;
+package com.github.chen0040.commons.models;
 
 
 import java.util.Date;
@@ -63,6 +63,10 @@ public interface SpringUser {
 
    void setEnabled(boolean enabled);
 
+   String getToken();
+
+   void setToken(String token);
+
    default void copyProfile(SpringUser rhs){
       setCreatedBy(rhs.getCreatedBy());
       setCreatedTime(rhs.getCreatedTime());
@@ -74,7 +78,8 @@ public interface SpringUser {
       setRoles(rhs.getRoles());
       setUpdatedTime(rhs.getUpdatedTime());
       setUsername(rhs.getUsername());
-      setEnabled(isEnabled());
+      setEnabled(rhs.isEnabled());
+      setToken(rhs.getToken());
    }
 
    default void copy(SpringUser rhs) {

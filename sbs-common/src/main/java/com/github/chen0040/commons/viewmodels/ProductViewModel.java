@@ -1,4 +1,4 @@
-package com.github.chen0040.eureka.magento.viewmodels;
+package com.github.chen0040.commons.viewmodels;
 
 
 import com.github.chen0040.magento.models.Product;
@@ -13,8 +13,9 @@ import lombok.Setter;
 @Setter
 public class ProductViewModel extends Product {
    private String imageUrl;
+   private String username;
 
-   public ProductViewModel(Product p){
+   public ProductViewModel(Product p, String username){
       this.setAttribute_set_id(p.getAttribute_set_id());
       this.setCreated_at(p.getCreated_at());
       this.setCustom_attributes(p.getCustom_attributes());
@@ -30,5 +31,10 @@ public class ProductViewModel extends Product {
       this.setUpdated_at(p.getUpdated_at());
       this.setWeight(p.getWeight());
       this.setVisibility(p.getVisibility());
+      this.username = username;
+   }
+
+   public ProductViewModel() {
+
    }
 }

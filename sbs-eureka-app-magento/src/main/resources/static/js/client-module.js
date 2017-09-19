@@ -3,27 +3,30 @@
     'ui.bootstrap',
     'ngRoute', 'ngSanitize']);
 
-/*
     app.config(function($routeProvider, $logProvider) {
          $logProvider.debugEnabled(false);
          $routeProvider
 
 
-            .when('/account', {
-                templateUrl : 'html/commons/account',
-                controller  : 'accountController'
+            .when('/events', {
+                templateUrl : 'html/events',
+                controller  : 'eventsController'
             })
 
-            .otherwise({redirectTo:'/account'});
+            .otherwise({redirectTo:'/events'});
     });
-*/
 
     var controller = function($timeout, $log, $scope, socketService, messageService) {
         var vm = this;
         vm.activate = function() {
-            messageService.subscribe('ping', 'clientController', function(channel, message){
+            messageService.subscribe('event', 'clientController', function(channel, message){
                 var eventMessage = JSON.parse(message);
-                $log.debug(eventMessage);
+                $timeout((function(_event){
+                    return function() {
+                        $scope.lastEvent = _event;
+                    };
+                })(eventMessage), 300);
+
             });
 
             $timeout(function(){

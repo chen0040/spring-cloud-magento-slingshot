@@ -2,7 +2,7 @@ package com.github.chen0040.eureka.magento.controllers;
 
 
 import com.github.chen0040.commons.utils.StringUtils;
-import com.github.chen0040.eureka.magento.services.MagentoService;
+import com.github.chen0040.eureka.magento.services.CategoryService;
 import com.github.chen0040.eureka.magento.utils.ResourceFileUtils;
 import com.github.chen0040.magento.models.Category;
 import org.slf4j.Logger;
@@ -20,30 +20,15 @@ import java.io.IOException;
 
 
 /**
- * Created by xschen on 27/6/2017.
+ * Created by xschen on 18/9/2017.
  */
 @Controller
-public class ImageController {
+public class CategoryMediaController {
 
-   private static final Logger logger = LoggerFactory.getLogger(ImageController.class);
+   private static final Logger logger = LoggerFactory.getLogger(CategoryMediaController.class);
 
-   @Autowired private MagentoService service;
-
-
-   @RequestMapping(value = "/product-img/{sku}", method = RequestMethod.GET)
-   public void getProductImage(@PathVariable("sku") String sku, HttpServletResponse response, HttpServletRequest request)
-           throws ServletException, IOException {
-
-      byte[] bytes = service.getProductImage(sku);
-
-      if (bytes != null) {
-         response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
-         response.getOutputStream().write(bytes);
-
-         response.getOutputStream().close();
-      }
-   }
-
+   @Autowired
+   private CategoryService categoryService;
 
    @RequestMapping(value = "/magento/categories/{categoryId}/icon", method = RequestMethod.GET)
    public void getCategoryIcon(@PathVariable("categoryId") long categoryId, HttpServletResponse response, HttpServletRequest request)
@@ -52,7 +37,7 @@ public class ImageController {
       String filename = getFilenameByCategoryId(categoryId);
 
       while(!ResourceFileUtils.resourceExists(filename)){
-         categoryId = service.getParentCategoryId(categoryId);
+         categoryId = categoryService.getParentCategoryId(categoryId);
          filename = getFilenameByCategoryId(categoryId);
          if(StringUtils.isEmpty(filename)) break;
       }
@@ -70,19 +55,11 @@ public class ImageController {
    }
 
    private String getFilenameByCategoryId(long categoryId) {
-      Category category = service.getCategoryById(categoryId);
+      Category category = categoryService.getCategoryById(categoryId);
       if(category ==null) return "";
       String filename = "static/img/category_" + category.getName().toLowerCase().replace(' ', '_') + ".png";
 
       System.out.println(filename);
-
-      if(filename.contains("cainet")) {
-         filename = filename.replace("cainet", "cabinet");
-      }
-      if(filename.contains("bean_bag")) {
-         filename = filename.replace("bean_bag", "bean_bags");
-      }
       return filename;
    }
-
 }
