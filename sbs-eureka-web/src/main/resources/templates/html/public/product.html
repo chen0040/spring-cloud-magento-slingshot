@@ -32,11 +32,6 @@
                         Quantity:
                         <input class="form-control" type="text" ng-model="cartItem.qty" />
                         <br />
-                        Shipping:
-                        <select class="form-control" ng-options="cat.id as cat.name + ' ($' + cat.price + ', Lead Time: ' + cat.leadTime + ' weeks)' for cat in shippingOptions"
-                                ng-model="cartItem.shippingId">
-                        </select>
-                        <br />
                         <button class="btn btn-primary" ng-click="addToCart()">Add to Cart</button>
                     </div>
                 </div>

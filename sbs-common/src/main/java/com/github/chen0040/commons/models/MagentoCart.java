@@ -20,7 +20,6 @@ public class MagentoCart {
    private Cart cart;
    private CartTotal cartTotal;
    private String id;
-   private Map<String, Long> shippingOptions = new HashMap<>();
    private int status = 0;
 
    public MagentoCart() {
@@ -35,15 +34,5 @@ public class MagentoCart {
       this.cart = cart;
       this.cartTotal = cartTotal;
       this.id = id;
-   }
-
-
-   public void setShipping(String sku, long shippingId) {
-      for(CartItem item : cart.getItems()){
-         if(item.getSku().equals(sku)){
-            shippingOptions.put(sku, shippingId);
-            break;
-         }
-      }
    }
 }

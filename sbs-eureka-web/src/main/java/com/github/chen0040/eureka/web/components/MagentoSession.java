@@ -73,15 +73,6 @@ public class MagentoSession {
 
       logger.info("store cart {} on {}", cart.getId(), key);
 
-
-      if(carts.containsKey(key)){
-         MagentoCart existing = carts.get(key);
-         for(Map.Entry<String, Long> entry : existing.getShippingOptions().entrySet()) {
-            cart.setShipping(entry.getKey(), entry.getValue());
-         }
-      }
-
-
       carts.put(key, cart);
    }
 

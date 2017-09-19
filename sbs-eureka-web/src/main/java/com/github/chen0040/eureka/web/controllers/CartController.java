@@ -90,7 +90,6 @@ public class CartController {
    @RequestMapping(value = "/magento/cart/add-item", method = RequestMethod.GET)
    @ResponseBody MagentoCart addItemToCart(@RequestParam("sku") String sku,
            @RequestParam("qty") int qty,
-           @RequestParam("shippingId") long shippingId,
            HttpServletRequest request) {
       TupleThree<String, Boolean, String> context = getCartContext(request);
       String token = context._1();
@@ -110,7 +109,6 @@ public class CartController {
          result = guestCartApi.addItemToCart(cartId, item);
       }
 
-      result.setShipping(sku, shippingId);
       magentoSession.storeCart(request, result);
       sendMessage(result, request);
 

@@ -1,15 +1,13 @@
 (function(){
-    var controller = function($scope, $location, productService, cartService, logisticsService, sku) {
+    var controller = function($scope, $location, productService, cartService, sku) {
         var vm = this;
 
 
         $scope.sku = sku;
         $scope.cartItem = {
             sku: '',
-            qty: 1,
-            shippingId: 0
+            qty: 1
         };
-        $scope.shippingOptions = [];
 
 
         vm.activate = function() {
@@ -17,14 +15,10 @@
                 $scope.product = product;
                 $scope.cartItem.sku = $scope.product.sku;
             });
-            logisticsService.getShippingOptions($scope.sku, function(options){
-                console.log(options);
-                $scope.shippingOptions = options;
-            });
         };
 
         $scope.addToCart = function() {
-            cartService.addToCart($scope.cartItem.sku, $scope.cartItem.qty, $scope.cartItem.shippingId, function(cart){
+            cartService.addToCart($scope.cartItem.sku, $scope.cartItem.qty, function(cart){
                 console.log(cart);
             });
         };
@@ -34,5 +28,5 @@
     };
 
     var module = angular.module('commons');
-    module.controller('productController', ['$scope', '$location', 'productService', 'cartService', 'logisticsService', 'sku', controller]);
+    module.controller('productController', ['$scope', '$location', 'productService', 'cartService', 'sku', controller]);
 })();

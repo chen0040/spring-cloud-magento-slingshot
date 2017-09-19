@@ -11,8 +11,8 @@
             });
         };
 
-        var addToCart = function(sku, qty, shippingId, callback){
-            $http.get('/magento/cart/add-item?sku=' + encodeURIComponent(sku) + '&qty=' + qty + '&shippingId=' + shippingId)
+        var addToCart = function(sku, qty, callback){
+            $http.get('/magento/cart/add-item?sku=' + encodeURIComponent(sku) + '&qty=' + qty)
             .then(function(response){
                 if(callback) callback(response.data);
             }, function(response) {
