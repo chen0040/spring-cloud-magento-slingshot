@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Created by xschen on 18/9/2017.
  */
 @Repository
-public class CategoryRepository {
+public class CategoryCache {
 
    private final Map<Long, List<CategoryProduct>> productsInCategory = new ConcurrentHashMap<>();
 

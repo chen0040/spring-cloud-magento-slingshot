@@ -3,7 +3,7 @@ package com.github.chen0040.eureka.magento.services;
 
 import com.github.chen0040.commons.viewmodels.ProductViewModel;
 import com.github.chen0040.eureka.magento.models.UserProduct;
-import com.github.chen0040.eureka.magento.repositories.ProductRepository;
+import com.github.chen0040.eureka.magento.repositories.ProductCache;
 import com.github.chen0040.eureka.magento.repositories.VendorProductRepository;
 import com.github.chen0040.magento.MagentoClient;
 import com.github.chen0040.magento.models.Product;
@@ -26,7 +26,7 @@ public class ProductServiceImpl implements ProductService {
    private MagentoClient magentoClient;
 
    @Autowired
-   private ProductRepository productRepository;
+   private ProductCache productCache;
 
    @Autowired
    private VendorProductRepository vendorProductRepository;
@@ -41,7 +41,7 @@ public class ProductServiceImpl implements ProductService {
    }
 
    @Transactional
-   @Override public void addProductToVendor(ProductViewModel product, String username) {
+   @Override public void addProductToVendor(Product product, String username) {
       UserProduct userProduct = new UserProduct();
       userProduct.setUsername(username);
       userProduct.setSku(product.getSku());
@@ -52,20 +52,24 @@ public class ProductServiceImpl implements ProductService {
       vendorProductRepository.save(userProduct);
    }
 
+   @Transactional
+   @Override public void removeProductFromVendor(String sku) {
+      vendorProductRepository.delete(sku);
+   }
+
 
    @Override public Product getProduct(String sku) {
-      Product result = productRepository.getProduct(sku);
+      Product result = productCache.getProduct(sku);
       if(result == null) {
          result = magentoClient.products().getProductBySku(sku);
-         productRepository.setProduct(sku, result);
+         productCache.setProduct(sku, result);
       }
       return result;
    }
 
    @Override public Product saveProduct(Product product) {
-      Product p = magentoClient.products().addProduct(product);
-      productRepository.setProduct(product.getSku(), product);
-      categoryService.invalidateRootCategory();
+      Product p = magentoClient.products().saveProduct(product);
+      productCache.setProduct(product.getSku(), product);
 
       logger.info("product saved: {}", p);
       return p;
@@ -73,8 +77,7 @@ public class ProductServiceImpl implements ProductService {
 
    @Override public String deleteProduct(String sku) {
       String result = magentoClient.products().deleteProduct(sku);
-      productRepository.removeProduct(sku);
-      categoryService.invalidateRootCategory();
+      productCache.removeProduct(sku);
 
       return result;
    }

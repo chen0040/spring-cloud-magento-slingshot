@@ -14,5 +14,6 @@ public interface ProductService {
    String deleteProduct(String sku);
    String getUsernameBySku(String sku);
 
-   void addProductToVendor(ProductViewModel product, String username);
+   void addProductToVendor(Product product, String username);
+   void removeProductFromVendor(String sku);
 }

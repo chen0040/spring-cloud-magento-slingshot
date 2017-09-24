@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Created by xschen on 9/7/2017.
  */
 @Repository
-public class ProductRepository {
+public class ProductCache {
 
    private final Map<String, Product> products = new ConcurrentHashMap<>();
 

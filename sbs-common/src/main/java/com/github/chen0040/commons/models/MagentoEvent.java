@@ -18,6 +18,7 @@ public class MagentoEvent {
    private String description;
    private String category;
    private long count;
+   private String level = "info";
 
    public MagentoEvent(){
 

@@ -20,6 +20,10 @@ public interface CategoryService {
    long getParentCategoryId(long categoryId);
 
    boolean addProductToCategory(String sku, long categoryId);
+   boolean removeProductFromCategory(String sku, long categoryId);
 
-   void invalidateRootCategory();
+   void updateCategoryTree();
+   void updateCategory(long categoryId);
+
+   List<Category> findBySku(String sku);
 }

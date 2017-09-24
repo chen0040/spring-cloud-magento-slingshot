@@ -1,13 +1,14 @@
 package com.github.chen0040.eureka.magento.services;
 
 
-import com.github.chen0040.eureka.magento.repositories.CategoryRepository;
+import com.github.chen0040.eureka.magento.repositories.CategoryCache;
 import com.github.chen0040.magento.MagentoClient;
 import com.github.chen0040.magento.models.Category;
 import com.github.chen0040.magento.models.CategoryProduct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,7 @@ public class CategoryServiceImpl implements CategoryService {
    private Map<Long, Category> categories = new HashMap<>();
 
    @Autowired
-   private CategoryRepository categoryRepository;
+   private CategoryCache categoryCache;
 
    @Autowired
    private MagentoClient magentoClient;
@@ -67,28 +68,58 @@ public class CategoryServiceImpl implements CategoryService {
 
    @Override public boolean addProductToCategory(String sku, long categoryId) {
       boolean added = magentoClient.categories().addProductToCategory(categoryId, sku, 1);
-
-      rootCategory = null;
-      categoryRepository.removeProductsInCategory(categoryId);
-
       return added;
    }
 
+   @Override public boolean removeProductFromCategory(String sku, long categoryId) {
+      return magentoClient.categories().removeProductFromCategory(categoryId, sku);
+   }
 
-   @Override public void invalidateRootCategory() {
+
+   @Override public void updateCategoryTree() {
       rootCategory = null;
-      categoryRepository.clearProductsInCategory();
+      getRootCategory();
+   }
+
+   @Override public void updateCategory(long categoryId) {
+      categoryCache.removeProductsInCategory(categoryId);
+      getProductsInCategory(categoryId);
    }
 
 
    @Override public List<CategoryProduct> getProductsInCategory(long categoryId) {
-      List<CategoryProduct> result = categoryRepository.getProductsInCategory(categoryId);
+      List<CategoryProduct> result = categoryCache.getProductsInCategory(categoryId);
       if(result == null) {
          result = magentoClient.categories().getProductsInCategory(categoryId);
-         categoryRepository.setProductsInCategory(categoryId, result);
+         categoryCache.setProductsInCategory(categoryId, result);
       }
       return result;
    }
+
+   @Override public List<Category> findBySku(String sku) {
+      if(rootCategory == null) {
+         getRootCategory();
+      }
+      List<Category> result = new ArrayList<>();
+      for(Map.Entry<Long, Category> entry : categories.entrySet()) {
+         List<CategoryProduct> products = getProductsInCategory(entry.getKey());
+         boolean found = false;
+         for(CategoryProduct product : products) {
+            if(product.getSku().equals(sku)) {
+               found =true;
+               break;
+            }
+         }
+         if(found) {
+            Category c = new Category();
+            c.setId(entry.getValue().getId());
+            c.setName(entry.getValue().getName());
+            result.add(c);
+         }
+      }
+      return result;
+   }
+
 
 
 }

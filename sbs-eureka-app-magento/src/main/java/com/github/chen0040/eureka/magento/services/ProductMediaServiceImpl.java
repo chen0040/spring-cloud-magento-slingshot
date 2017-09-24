@@ -78,7 +78,8 @@ public class ProductMediaServiceImpl implements ProductMediaService {
          return url;
       }
 
-      String id = p.getCustom_attributes().stream().filter(attr -> attr.getAttribute_code().equals("image")).map(MagentoAttribute::getValue).findFirst().orElse("");
+      String id = p.getCustom_attributes().stream().filter(attr -> attr.getAttribute_code().equals("image")).map(MagentoAttribute::getValue).findFirst().map(
+              Object::toString).orElse("");
 
 
 
